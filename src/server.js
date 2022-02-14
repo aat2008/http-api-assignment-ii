@@ -2,20 +2,16 @@ const http = require('http');
 const url = require('url');
 const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
-// const dataHandler = require('./dataResponses.js');
+const fetchHandler = require('./fetchResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const urlStruct = {
-  '/stylesheet': htmlHandler.getCSS,
   '/': htmlHandler.getIndex,
-  //'/success': dataHandler.success,
-  // '/badRequest': dataHandler.badRequest,
-  // '/unauthorized': dataHandler.unauthorized,
-  // '/forbidden': dataHandler.forbidden,
-  // '/internal': dataHandler.internal,
-  // '/notImplemented': dataHandler.notImplemented,
-  // '/notFound': dataHandler.notFound,
+  '/stylesheet': htmlHandler.getCSS,
+  '/getUsers': fetchHandler.getUsers,
+  '/notReal': fetchHandler.notReal,
+  '/notFound': fetchHandler.notFound,
 };
 
 const onRequest = (request, response) => {
@@ -25,7 +21,7 @@ const onRequest = (request, response) => {
 
   //    localhost:3000     /
   if (urlStruct[parsedUrl.pathname]) {
-    urlStruct[parsedUrl.pathname](request, response, acceptedTypes, params);
+    urlStruct[parsedUrl.pathname](request, response, params);
   } else {
     // urlStruct.notFound(request, response, params);
   }

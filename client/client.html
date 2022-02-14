@@ -2,14 +2,31 @@
 <html lang="en">
 <head>
   <title>Our simple HTTP server</title>
-  <link rel="stylesheet" type="text/css" href="/style.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheet">
   
   <script>
-    const init = () => {
-      console.log("help me")
+    const sendFetch = async () => {
+      const url = document.getElementById('page').value;
+      const type = document.getElementById('type').value;
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': type
+        },
+      });
+
+      handleResponse(response);
     };
 
-    windows.onload = init;
+    const init = () => {
+      const getUser = document.getElementById('userForm');
+      const addUser = document.getElementById('nameForm');
+      addUser.addEventListener('submit', sendFetch);
+      getUser.addEventListener('submit', sendFetch);
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>
